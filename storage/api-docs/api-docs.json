@@ -22,7 +22,7 @@
                 ],
                 "summary": "Register a new user",
                 "description": "Create a new user account and receive an authentication token",
-                "operationId": "register",
+                "operationId": "8e4e3cb7b46126f4696379d3c7eeb4ad",
                 "requestBody": {
                     "description": "User registration data",
                     "required": true,
@@ -145,7 +145,7 @@
                 ],
                 "summary": "Login user",
                 "description": "Authenticate user and receive an authentication token",
-                "operationId": "login",
+                "operationId": "222b2625838e3c57e017987f73598fda",
                 "requestBody": {
                     "description": "User credentials",
                     "required": true,
@@ -255,7 +255,7 @@
                 ],
                 "summary": "Logout user",
                 "description": "Revoke the current user's authentication token",
-                "operationId": "logout",
+                "operationId": "ad65cbbd4e9f201619eae184a5961a98",
                 "responses": {
                     "200": {
                         "description": "Logout successful",
@@ -304,7 +304,7 @@
                 ],
                 "summary": "Get authenticated user",
                 "description": "Retrieve the currently authenticated user's information",
-                "operationId": "me",
+                "operationId": "8367feff40ba10e43187792cad3132c1",
                 "responses": {
                     "200": {
                         "description": "User information retrieved successfully",
@@ -374,7 +374,7 @@
                 ],
                 "summary": "Get authenticated user's wishes",
                 "description": "Retrieve a list of wishes created by the authenticated user",
-                "operationId": "getWishes",
+                "operationId": "35e5479f6fc4ed62160c25262bca25ce",
                 "responses": {
                     "200": {
                         "description": "Wishes retrieved successfully",
@@ -457,7 +457,7 @@
                 ],
                 "summary": "Create a new wish",
                 "description": "Create a new wish for the authenticated user",
-                "operationId": "createWish",
+                "operationId": "01b34792ed549f54dfa2f59564de9dc1",
                 "requestBody": {
                     "description": "Wish data",
                     "required": true,
@@ -595,7 +595,7 @@
                 ],
                 "summary": "Get a specific wish",
                 "description": "Retrieve details of a specific wish (users can only view their own wishes)",
-                "operationId": "getWish",
+                "operationId": "4b6da589694075cac266f5566c933b34",
                 "parameters": [
                     {
                         "name": "id",
@@ -702,7 +702,7 @@
                 ],
                 "summary": "Update a wish",
                 "description": "Update a wish (users can update their own wishes, Santa can update status of any wish)",
-                "operationId": "updateWish",
+                "operationId": "ccd65916ccf41123db5abfcb5e781464",
                 "parameters": [
                     {
                         "name": "id",
@@ -817,7 +817,7 @@
                 ],
                 "summary": "Delete a wish",
                 "description": "Soft delete a wish (users can only delete their own wishes)",
-                "operationId": "deleteWish",
+                "operationId": "42c21a12342a5d18eb57926aa9343ab2",
                 "parameters": [
                     {
                         "name": "id",
@@ -893,7 +893,7 @@
                 ],
                 "summary": "Get all wishes (Santa only)",
                 "description": "Retrieve all wishes from all users (requires view_all_wishes permission)",
-                "operationId": "getAllWishes",
+                "operationId": "7b0b257cfb7acd37f9d0e4a643ed456c",
                 "responses": {
                     "200": {
                         "description": "All wishes retrieved successfully",
