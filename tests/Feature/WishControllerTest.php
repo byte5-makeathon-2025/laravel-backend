@@ -104,6 +104,19 @@ test('user can view a specific wish they own', function () {
         ->assertJsonFragment(['title' => 'My Specific Wish']);
 });
 
+test('user gets 404 when viewing non-existent wish', function () {
+    $user = User::factory()->create();
+    $user->assignRole('user');
+
+    $token = $user->createToken('test-token')->plainTextToken;
+
+    $response = $this->withHeader('Authorization', "Bearer {$token}")
+        ->getJson('/api/wishes/99999');
+
+    $response->assertStatus(404)
+        ->assertJson(['message' => 'Wish not found']);
+});
+
 test('user can update their own wish', function () {
     $user = User::factory()->create();
     $user->assignRole('user');
@@ -185,6 +198,21 @@ test('user cannot update wish status', function () {
     ]);
 });
 
+test('user gets 404 when updating non-existent wish', function () {
+    $user = User::factory()->create();
+    $user->assignRole('user');
+
+    $token = $user->createToken('test-token')->plainTextToken;
+
+    $response = $this->withHeader('Authorization', "Bearer {$token}")
+        ->putJson('/api/wishes/99999', [
+            'title' => 'Updated Title',
+        ]);
+
+    $response->assertStatus(404)
+        ->assertJson(['message' => 'Wish not found']);
+});
+
 test('user can delete their own wish', function () {
     $user = User::factory()->create();
     $user->assignRole('user');
@@ -229,6 +257,19 @@ test('user cannot delete other users wish', function () {
         ->deleteJson("/api/wishes/{$wish->id}");
 
     $response->assertStatus(403);
+});
+
+test('user gets 404 when deleting non-existent wish', function () {
+    $user = User::factory()->create();
+    $user->assignRole('user');
+
+    $token = $user->createToken('test-token')->plainTextToken;
+
+    $response = $this->withHeader('Authorization', "Bearer {$token}")
+        ->deleteJson('/api/wishes/99999');
+
+    $response->assertStatus(404)
+        ->assertJson(['message' => 'Wish not found']);
 });
 
 test('santa can view all wishes', function () {
