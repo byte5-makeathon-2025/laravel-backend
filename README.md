@@ -1,6 +1,7 @@
 # byte5 Laravel x Next.JS Makeathon
 
-Welcome to the byte5 Makeathon backend API built with Laravel. This API powers the Next.JS frontend and provides all necessary endpoints for the makeathon application.
+Welcome to the byte5 Makeathon backend API built with Laravel. This API powers the Next.JS frontend and provides all basic endpoints for the makeathon application.
+Feel free to extend this project to suit your feature ideas.
 
 ## About
 
