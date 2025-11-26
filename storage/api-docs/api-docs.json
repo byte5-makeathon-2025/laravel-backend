@@ -500,7 +500,7 @@
                     "Wishes"
                 ],
                 "summary": "Get a specific wish",
-                "description": "Retrieve details of a specific wish (public access)",
+                "description": "Retrieve details of a specific wish (requires view_all_wishes permission - Santa and Elfs only)",
                 "operationId": "4b6da589694075cac266f5566c933b34",
                 "parameters": [
                     {
@@ -563,6 +563,22 @@
                             }
                         }
                     },
+                    "403": {
+                        "description": "Forbidden - Insufficient permissions",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Forbidden"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
                     "404": {
                         "description": "Wish not found",
                         "content": {
@@ -579,7 +595,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             },
             "put": {
                 "tags": [
