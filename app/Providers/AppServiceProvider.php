@@ -28,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
         Model::shouldBeStrict();
         Model::unguard();
 
-        DB::prohibitDestructiveCommands(app()->isProduction());
+        //DB::prohibitDestructiveCommands(app()->isProduction());
 
         Http::preventStrayRequests();
 
