@@ -38,7 +38,10 @@ test('user cannot create wish without name field', function () {
         ->assertJsonValidationErrors(['name']);
 });
 
-test('anyone can view a specific wish', function () {
+test('santa can view a specific wish', function () {
+    $santa = User::factory()->create();
+    $santa->assignRole('santa_claus');
+
     $wish = Wish::create([
         'name' => 'Jane Smith',
         'title' => 'My Specific Wish',
@@ -47,14 +50,77 @@ test('anyone can view a specific wish', function () {
         'status' => 'pending',
     ]);
 
-    $response = $this->getJson("/api/wishes/{$wish->id}");
+    $token = $santa->createToken('test-token')->plainTextToken;
+
+    $response = $this->withHeader('Authorization', "Bearer {$token}")
+        ->getJson("/api/wishes/{$wish->id}");
 
     $response->assertStatus(200)
         ->assertJsonFragment(['title' => 'My Specific Wish', 'name' => 'Jane Smith']);
 });
 
-test('user gets 404 when viewing non-existent wish', function () {
-    $response = $this->getJson('/api/wishes/99999');
+test('elf can view a specific wish', function () {
+    $elf = User::factory()->create();
+    $elf->assignRole('elf');
+
+    $wish = Wish::create([
+        'name' => 'Peter Parker',
+        'title' => 'Elf Specific Wish',
+        'description' => 'Test description',
+        'priority' => 'high',
+        'status' => 'pending',
+    ]);
+
+    $token = $elf->createToken('test-token')->plainTextToken;
+
+    $response = $this->withHeader('Authorization', "Bearer {$token}")
+        ->getJson("/api/wishes/{$wish->id}");
+
+    $response->assertStatus(200)
+        ->assertJsonFragment(['title' => 'Elf Specific Wish', 'name' => 'Peter Parker']);
+});
+
+test('unauthenticated user cannot view specific wish', function () {
+    $wish = Wish::create([
+        'name' => 'Alice Wonder',
+        'title' => 'Secret Wish',
+        'description' => 'Test description',
+        'priority' => 'high',
+        'status' => 'pending',
+    ]);
+
+    $response = $this->getJson("/api/wishes/{$wish->id}");
+
+    $response->assertStatus(401);
+});
+
+test('regular user cannot view specific wish', function () {
+    $user = User::factory()->create();
+
+    $wish = Wish::create([
+        'name' => 'Bob Builder',
+        'title' => 'Private Wish',
+        'description' => 'Test description',
+        'priority' => 'high',
+        'status' => 'pending',
+    ]);
+
+    $token = $user->createToken('test-token')->plainTextToken;
+
+    $response = $this->withHeader('Authorization', "Bearer {$token}")
+        ->getJson("/api/wishes/{$wish->id}");
+
+    $response->assertStatus(403);
+});
+
+test('santa gets 404 when viewing non-existent wish', function () {
+    $santa = User::factory()->create();
+    $santa->assignRole('santa_claus');
+
+    $token = $santa->createToken('test-token')->plainTextToken;
+
+    $response = $this->withHeader('Authorization', "Bearer {$token}")
+        ->getJson('/api/wishes/99999');
 
     $response->assertStatus(404);
 });

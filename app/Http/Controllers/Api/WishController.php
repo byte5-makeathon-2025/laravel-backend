@@ -7,7 +7,6 @@ use App\Http\Requests\Api\StoreWishRequest;
 use App\Http\Requests\Api\UpdateWishRequest;
 use App\Models\Wish;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
 
 class WishController extends Controller
@@ -82,8 +81,9 @@ class WishController extends Controller
 
     #[OA\Get(
         path: '/api/wishes/{id}',
-        description: 'Retrieve details of a specific wish (public access)',
+        description: 'Retrieve details of a specific wish (requires view_all_wishes permission - Santa and Elfs only)',
         summary: 'Get a specific wish',
+        security: [['sanctum' => []]],
         tags: ['Wishes'],
         parameters: [
             new OA\Parameter(
@@ -114,6 +114,15 @@ class WishController extends Controller
                             ],
                             type: 'object'
                         ),
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: 403,
+                description: 'Forbidden - Insufficient permissions',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'message', type: 'string', example: 'Forbidden'),
                     ]
                 )
             ),
@@ -193,12 +202,6 @@ class WishController extends Controller
     )]
     public function update(UpdateWishRequest $request, Wish $wish): JsonResponse
     {
-        if (! $request->user()->hasPermissionTo('update_wish')) {
-            return response()->json([
-                'message' => 'Forbidden',
-            ], 403);
-        }
-
         $validated = $request->validated();
         $wish->update($validated);
 
@@ -252,14 +255,8 @@ class WishController extends Controller
             ),
         ]
     )]
-    public function destroy(Request $request, Wish $wish): JsonResponse
+    public function destroy(Wish $wish): JsonResponse
     {
-        if (! $request->user()->hasPermissionTo('delete_wish')) {
-            return response()->json([
-                'message' => 'Forbidden',
-            ], 403);
-        }
-
         $wish->delete();
 
         return response()->json([

@@ -4,16 +4,13 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\WishController;
 use Illuminate\Support\Facades\Route;
 
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
-
-Route::post('/wishes', [WishController::class, 'store']);
-
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me', [AuthController::class, 'me']);
 
     Route::get('/wishes/all', [WishController::class, 'allWishes'])
+        ->middleware('can:view_all_wishes');
+    Route::get('/wishes/{wish}', [WishController::class, 'show'])
         ->middleware('can:view_all_wishes');
 
     Route::put('/wishes/{wish}', [WishController::class, 'update'])
@@ -22,4 +19,7 @@ Route::middleware('auth:sanctum')->group(function () {
         ->middleware('can:delete_wish');
 });
 
-Route::get('/wishes/{wish}', [WishController::class, 'show']);
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::post('/wishes', [WishController::class, 'store']);
