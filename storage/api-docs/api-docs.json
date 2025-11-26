@@ -4,7 +4,7 @@
         "title": "Byte5 Makeathon API",
         "description": "API documentation for Byte5 Makeathon Backend",
         "contact": {
-            "email": "support@byte5.com"
+            "email": "laravel@byte5.com"
         },
         "version": "1.0.0"
     },

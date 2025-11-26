@@ -79,6 +79,13 @@ This allows you to test your changes in an isolated environment before merging t
 
 ## Development
 
+### Seeded Users
+There are default users created during the seeder process. You can access them via the following credentials:
+
+admin@example.com - password
+santa@example.com - password
+
+
 ### Running Tests
 
 ```bash
@@ -89,6 +96,11 @@ This allows you to test your changes in an isolated environment before merging t
 php artisan test
 ```
 
+### Regnerating API Documentation
+```bash
+php artisan l5-swagger:generate
+```
+
 ### Code Style
 
 This project follows Laravel and PHP best practices. Please ensure your code adheres to PSR-12 standards.
@@ -96,6 +108,10 @@ This project follows Laravel and PHP best practices. Please ensure your code adh
 ## API Documentation
 
 API documentation is available at `/docs` when running the application locally or in the preview environment.
+
+## Filament
+
+There is a Filament admin panel available at `/admin`.
 
 ## License
 
