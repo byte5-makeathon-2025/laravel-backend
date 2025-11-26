@@ -36,10 +36,10 @@ class WishForm
                     ])
                     ->default('pending')
                     ->required(),
-                Select::make('user_id')
-                    ->relationship('user', 'name')
+                TextInput::make('name')
+                    ->label('Wish Creator')
                     ->required()
-                    ->searchable(),
+                    ->maxLength(255),
             ]);
     }
 }

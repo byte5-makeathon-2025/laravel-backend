@@ -15,8 +15,8 @@ class WishesTable
     {
         return $table
             ->columns([
-                TextColumn::make('user.name')
-                    ->label('User')
+                TextColumn::make('name')
+                    ->label('Wish Creator')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('title')
