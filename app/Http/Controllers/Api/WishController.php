@@ -11,7 +11,6 @@ use OpenApi\Attributes as OA;
 
 class WishController extends Controller
 {
-
     #[OA\Post(
         path: '/api/wishes',
         description: 'Create a new wish (no authentication required)',
@@ -206,7 +205,7 @@ class WishController extends Controller
         $wish->update($validated);
 
         return response()->json([
-            'wish' => $wish->fresh(),
+            'wish' => $wish,
         ]);
     }
 
@@ -309,10 +308,8 @@ class WishController extends Controller
     )]
     public function allWishes(): JsonResponse
     {
-        $wishes = Wish::latest()->get();
+        $wishes = Wish::latest()->paginate();
 
-        return response()->json([
-            'wishes' => $wishes,
-        ]);
+        return response()->json($wishes);
     }
 }

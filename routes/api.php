@@ -22,4 +22,5 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::post('/wishes', [WishController::class, 'store']);
+Route::post('/wishes', [WishController::class, 'store'])
+    ->middleware('throttle:10,1');

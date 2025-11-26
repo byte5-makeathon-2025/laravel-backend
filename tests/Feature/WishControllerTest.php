@@ -50,12 +50,9 @@ test('santa can view a specific wish', function () {
         'status' => 'pending',
     ]);
 
-    $token = $santa->createToken('test-token')->plainTextToken;
-
-    $response = $this->withHeader('Authorization', "Bearer {$token}")
-        ->getJson("/api/wishes/{$wish->id}");
-
-    $response->assertStatus(200)
+    $this->actingAs($santa)
+        ->getJson("/api/wishes/{$wish->id}")
+        ->assertStatus(200)
         ->assertJsonFragment(['title' => 'My Specific Wish', 'name' => 'Jane Smith']);
 });
 
@@ -71,12 +68,9 @@ test('elf can view a specific wish', function () {
         'status' => 'pending',
     ]);
 
-    $token = $elf->createToken('test-token')->plainTextToken;
-
-    $response = $this->withHeader('Authorization', "Bearer {$token}")
-        ->getJson("/api/wishes/{$wish->id}");
-
-    $response->assertStatus(200)
+    $this->actingAs($elf)
+        ->getJson("/api/wishes/{$wish->id}")
+        ->assertStatus(200)
         ->assertJsonFragment(['title' => 'Elf Specific Wish', 'name' => 'Peter Parker']);
 });
 
@@ -105,24 +99,18 @@ test('regular user cannot view specific wish', function () {
         'status' => 'pending',
     ]);
 
-    $token = $user->createToken('test-token')->plainTextToken;
-
-    $response = $this->withHeader('Authorization', "Bearer {$token}")
-        ->getJson("/api/wishes/{$wish->id}");
-
-    $response->assertStatus(403);
+    $this->actingAs($user)
+        ->getJson("/api/wishes/{$wish->id}")
+        ->assertStatus(403);
 });
 
 test('santa gets 404 when viewing non-existent wish', function () {
     $santa = User::factory()->create();
     $santa->assignRole('santa_claus');
 
-    $token = $santa->createToken('test-token')->plainTextToken;
-
-    $response = $this->withHeader('Authorization', "Bearer {$token}")
-        ->getJson('/api/wishes/99999');
-
-    $response->assertStatus(404);
+    $this->actingAs($santa)
+        ->getJson('/api/wishes/99999')
+        ->assertStatus(404);
 });
 
 test('santa can view all wishes', function () {
@@ -137,14 +125,18 @@ test('santa can view all wishes', function () {
         'status' => 'pending',
     ]);
 
-    $token = $santa->createToken('test-token')->plainTextToken;
-
-    $response = $this->withHeader('Authorization', "Bearer {$token}")
-        ->getJson('/api/wishes/all');
-
-    $response->assertStatus(200)
-        ->assertJsonCount(1, 'wishes')
-        ->assertJsonFragment(['title' => 'User Wish']);
+    $this->actingAs($santa)
+        ->getJson('/api/wishes/all')
+        ->assertStatus(200)
+        ->assertJsonCount(1, 'data')
+        ->assertJsonFragment(['title' => 'User Wish'])
+        ->assertJsonStructure([
+            'data',
+            'current_page',
+            'per_page',
+            'total',
+            'links',
+        ]);
 });
 
 test('elf can view all wishes', function () {
@@ -159,25 +151,26 @@ test('elf can view all wishes', function () {
         'status' => 'pending',
     ]);
 
-    $token = $elf->createToken('test-token')->plainTextToken;
-
-    $response = $this->withHeader('Authorization', "Bearer {$token}")
-        ->getJson('/api/wishes/all');
-
-    $response->assertStatus(200)
-        ->assertJsonCount(1, 'wishes')
-        ->assertJsonFragment(['title' => 'Elf Wish Test']);
+    $this->actingAs($elf)
+        ->getJson('/api/wishes/all')
+        ->assertStatus(200)
+        ->assertJsonCount(1, 'data')
+        ->assertJsonFragment(['title' => 'Elf Wish Test'])
+        ->assertJsonStructure([
+            'data',
+            'current_page',
+            'per_page',
+            'total',
+            'links',
+        ]);
 });
 
 test('regular user cannot view all wishes without permission', function () {
     $user = User::factory()->create();
 
-    $token = $user->createToken('test-token')->plainTextToken;
-
-    $response = $this->withHeader('Authorization', "Bearer {$token}")
-        ->getJson('/api/wishes/all');
-
-    $response->assertStatus(403);
+    $this->actingAs($user)
+        ->getJson('/api/wishes/all')
+        ->assertStatus(403);
 });
 
 test('unauthenticated user cannot view all wishes', function () {
@@ -198,16 +191,13 @@ test('santa can update wish', function () {
         'status' => 'pending',
     ]);
 
-    $token = $santa->createToken('test-token')->plainTextToken;
-
-    $response = $this->withHeader('Authorization', "Bearer {$token}")
+    $this->actingAs($santa)
         ->putJson("/api/wishes/{$wish->id}", [
             'title' => 'Updated Title',
             'description' => 'Updated description',
             'status' => 'granted',
-        ]);
-
-    $response->assertStatus(200)
+        ])
+        ->assertStatus(200)
         ->assertJsonFragment(['title' => 'Updated Title', 'status' => 'granted']);
 
     $this->assertDatabaseHas('wishes', [
@@ -229,16 +219,13 @@ test('elf can update wish', function () {
         'status' => 'pending',
     ]);
 
-    $token = $elf->createToken('test-token')->plainTextToken;
-
-    $response = $this->withHeader('Authorization', "Bearer {$token}")
+    $this->actingAs($elf)
         ->putJson("/api/wishes/{$wish->id}", [
             'title' => 'Elf Updated Title',
             'description' => 'Elf updated description',
             'status' => 'in_progress',
-        ]);
-
-    $response->assertStatus(200)
+        ])
+        ->assertStatus(200)
         ->assertJsonFragment(['title' => 'Elf Updated Title', 'status' => 'in_progress']);
 
     $this->assertDatabaseHas('wishes', [
@@ -259,14 +246,11 @@ test('regular user cannot update wish without permission', function () {
         'status' => 'pending',
     ]);
 
-    $token = $user->createToken('test-token')->plainTextToken;
-
-    $response = $this->withHeader('Authorization', "Bearer {$token}")
+    $this->actingAs($user)
         ->putJson("/api/wishes/{$wish->id}", [
             'status' => 'granted',
-        ]);
-
-    $response->assertStatus(403);
+        ])
+        ->assertStatus(403);
 });
 
 test('unauthenticated user cannot update wish', function () {
@@ -289,14 +273,11 @@ test('user gets 404 when updating non-existent wish', function () {
     $santa = User::factory()->create();
     $santa->assignRole('santa_claus');
 
-    $token = $santa->createToken('test-token')->plainTextToken;
-
-    $response = $this->withHeader('Authorization', "Bearer {$token}")
+    $this->actingAs($santa)
         ->putJson('/api/wishes/99999', [
             'title' => 'Updated Title',
-        ]);
-
-    $response->assertStatus(404);
+        ])
+        ->assertStatus(404);
 });
 
 test('santa can delete wish', function () {
@@ -311,12 +292,9 @@ test('santa can delete wish', function () {
         'status' => 'pending',
     ]);
 
-    $token = $santa->createToken('test-token')->plainTextToken;
-
-    $response = $this->withHeader('Authorization', "Bearer {$token}")
-        ->deleteJson("/api/wishes/{$wish->id}");
-
-    $response->assertStatus(200)
+    $this->actingAs($santa)
+        ->deleteJson("/api/wishes/{$wish->id}")
+        ->assertStatus(200)
         ->assertJson(['message' => 'Wish deleted successfully']);
 
     $this->assertSoftDeleted('wishes', ['id' => $wish->id]);
@@ -334,12 +312,9 @@ test('elf can delete wish', function () {
         'status' => 'pending',
     ]);
 
-    $token = $elf->createToken('test-token')->plainTextToken;
-
-    $response = $this->withHeader('Authorization', "Bearer {$token}")
-        ->deleteJson("/api/wishes/{$wish->id}");
-
-    $response->assertStatus(200)
+    $this->actingAs($elf)
+        ->deleteJson("/api/wishes/{$wish->id}")
+        ->assertStatus(200)
         ->assertJson(['message' => 'Wish deleted successfully']);
 
     $this->assertSoftDeleted('wishes', ['id' => $wish->id]);
@@ -356,12 +331,9 @@ test('regular user cannot delete wish without permission', function () {
         'status' => 'pending',
     ]);
 
-    $token = $user->createToken('test-token')->plainTextToken;
-
-    $response = $this->withHeader('Authorization', "Bearer {$token}")
-        ->deleteJson("/api/wishes/{$wish->id}");
-
-    $response->assertStatus(403);
+    $this->actingAs($user)
+        ->deleteJson("/api/wishes/{$wish->id}")
+        ->assertStatus(403);
 });
 
 test('unauthenticated user cannot delete wish', function () {
@@ -382,12 +354,9 @@ test('user gets 404 when deleting non-existent wish', function () {
     $santa = User::factory()->create();
     $santa->assignRole('santa_claus');
 
-    $token = $santa->createToken('test-token')->plainTextToken;
-
-    $response = $this->withHeader('Authorization', "Bearer {$token}")
-        ->deleteJson('/api/wishes/99999');
-
-    $response->assertStatus(404);
+    $this->actingAs($santa)
+        ->deleteJson('/api/wishes/99999')
+        ->assertStatus(404);
 });
 
 test('wish validation accepts valid priority values', function () {
