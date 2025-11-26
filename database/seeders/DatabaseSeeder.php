@@ -19,20 +19,20 @@ class DatabaseSeeder extends Seeder
         ]);
         $adminUser->assignRole('admin');
 
-        $testUser = User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'user@example.com',
-        ]);
-        $testUser->assignRole('user');
-
         $santaUser = User::factory()->create([
             'name' => 'Santa Claus',
-            'email' => 'santa@example.com',
+            'email' => 'santa@byte5.de',
         ]);
         $santaUser->assignRole('santa_claus');
 
+        $elfUser = User::factory()->create([
+            'name' => 'Helper Elf',
+            'email' => 'elf@byte5.de',
+        ]);
+        $elfUser->assignRole('elf');
+
         Wish::factory()->create([
-            'user_id' => $testUser->id,
+            'name' => 'Tommy Anderson',
             'title' => 'Red Bicycle',
             'description' => 'I would love a shiny red bicycle with training wheels',
             'priority' => 'high',
@@ -40,7 +40,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Wish::factory()->create([
-            'user_id' => $testUser->id,
+            'name' => 'Sarah Johnson',
             'title' => 'Teddy Bear',
             'description' => 'A soft and cuddly teddy bear to hug at night',
             'priority' => 'medium',
@@ -48,7 +48,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Wish::factory()->create([
-            'user_id' => $adminUser->id,
+            'name' => 'Michael Smith',
             'title' => 'World Peace',
             'description' => 'Peace and happiness for everyone in the world',
             'priority' => 'high',

@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -28,7 +27,7 @@ class WishFactory extends Factory
         $wish = fake()->randomElement($wishes);
 
         return [
-            'user_id' => User::factory(),
+            'name' => fake()->name(),
             'title' => $wish['title'],
             'description' => $wish['description'],
             'priority' => fake()->randomElement(['high', 'medium', 'low']),

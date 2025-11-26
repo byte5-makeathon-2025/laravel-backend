@@ -5,13 +5,20 @@ namespace App\Models;
 use Database\Factories\WishFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Wish extends Model
 {
     /** @use HasFactory<WishFactory> */
     use HasFactory, SoftDeletes;
+
+    protected $fillable = [
+        'name',
+        'title',
+        'description',
+        'priority',
+        'status',
+    ];
 
     protected $hidden = [
         'deleted_at',
@@ -23,10 +30,5 @@ class Wish extends Model
             'priority' => 'string',
             'status' => 'string',
         ];
-    }
-
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
     }
 }

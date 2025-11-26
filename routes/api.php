@@ -15,5 +15,11 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/wishes/all', [WishController::class, 'allWishes'])
         ->middleware('can:view_all_wishes');
-    Route::apiResource('wishes', WishController::class)->except('store');
+
+    Route::put('/wishes/{wish}', [WishController::class, 'update'])
+        ->middleware('can:update_wish');
+    Route::delete('/wishes/{wish}', [WishController::class, 'destroy'])
+        ->middleware('can:delete_wish');
 });
+
+Route::get('/wishes/{wish}', [WishController::class, 'show']);

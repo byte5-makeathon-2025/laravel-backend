@@ -25,28 +25,18 @@ return new class extends Migration
         $adminRole = Role::create(['name' => 'admin']);
         $adminRole->givePermissionTo(Permission::all());
 
-        $userRole = Role::create(['name' => 'user']);
-        $userRole->givePermissionTo([
-            'view_user',
-            'view_wish',
-            'create_wish',
-            'update_wish',
-            'delete_wish',
-        ]);
-
-        $moderatorRole = Role::create(['name' => 'moderator']);
-        $moderatorRole->givePermissionTo([
-            'view_user',
-            'create_user',
-            'update_user',
-            'view_role',
-            'view_permission',
-        ]);
-
         $santaRole = Role::create(['name' => 'santa_claus']);
         $santaRole->givePermissionTo([
             'view_all_wishes',
             'update_wish',
+            'delete_wish',
+        ]);
+
+        $elfRole = Role::create(['name' => 'elf']);
+        $elfRole->givePermissionTo([
+            'view_all_wishes',
+            'update_wish',
+            'delete_wish',
         ]);
     }
 
@@ -54,7 +44,7 @@ return new class extends Migration
     {
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
-        Role::whereIn('name', ['admin', 'user', 'moderator', 'santa_claus'])->delete();
+        Role::whereIn('name', ['admin', 'santa_claus', 'elf'])->delete();
 
         Permission::whereIn('name', [
             'view_user', 'create_user', 'update_user', 'delete_user',
