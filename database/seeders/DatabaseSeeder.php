@@ -18,13 +18,13 @@ class DatabaseSeeder extends Seeder
 
         $santaUser = User::factory()->create([
             'name' => 'Santa Claus',
-            'email' => 'santa@byte5.de',
+            'email' => 'santa@example.com',
         ]);
         $santaUser->assignRole('santa_claus');
 
         $elfUser = User::factory()->create([
             'name' => 'Helper Elf',
-            'email' => 'elf@byte5.de',
+            'email' => 'elf@example.com',
         ]);
         $elfUser->assignRole('elf');
 
