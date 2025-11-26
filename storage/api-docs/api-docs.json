@@ -4,7 +4,7 @@
         "title": "Byte5 Makeathon API",
         "description": "API documentation for Byte5 Makeathon Backend",
         "contact": {
-            "email": "support@byte5.com"
+            "email": "laravel@byte5.com"
         },
         "version": "1.0.0"
     },
@@ -368,95 +368,12 @@
             }
         },
         "/api/wishes": {
-            "get": {
-                "tags": [
-                    "Wishes"
-                ],
-                "summary": "Get authenticated user's wishes",
-                "description": "Retrieve a list of wishes created by the authenticated user",
-                "operationId": "35e5479f6fc4ed62160c25262bca25ce",
-                "responses": {
-                    "200": {
-                        "description": "Wishes retrieved successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "wishes": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "id": {
-                                                        "type": "integer",
-                                                        "example": 1
-                                                    },
-                                                    "user_id": {
-                                                        "type": "integer",
-                                                        "example": 1
-                                                    },
-                                                    "title": {
-                                                        "type": "string",
-                                                        "example": "New Bicycle"
-                                                    },
-                                                    "description": {
-                                                        "type": "string",
-                                                        "example": "I would love a red bicycle"
-                                                    },
-                                                    "priority": {
-                                                        "type": "string",
-                                                        "example": "high"
-                                                    },
-                                                    "status": {
-                                                        "type": "string",
-                                                        "example": "pending"
-                                                    },
-                                                    "created_at": {
-                                                        "type": "string",
-                                                        "format": "date-time"
-                                                    },
-                                                    "updated_at": {
-                                                        "type": "string",
-                                                        "format": "date-time"
-                                                    }
-                                                },
-                                                "type": "object"
-                                            }
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthenticated",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Unauthenticated."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
-            },
             "post": {
                 "tags": [
                     "Wishes"
                 ],
                 "summary": "Create a new wish",
-                "description": "Create a new wish for the authenticated user",
+                "description": "Create a new wish (no authentication required)",
                 "operationId": "01b34792ed549f54dfa2f59564de9dc1",
                 "requestBody": {
                     "description": "Wish data",
@@ -465,10 +382,16 @@
                         "application/json": {
                             "schema": {
                                 "required": [
+                                    "name",
                                     "title",
                                     "description"
                                 ],
                                 "properties": {
+                                    "name": {
+                                        "description": "Name of person making the wish",
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
                                     "title": {
                                         "description": "Wish title",
                                         "type": "string",
@@ -502,15 +425,19 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Wish successfully created"
+                                        },
                                         "wish": {
                                             "properties": {
                                                 "id": {
                                                     "type": "integer",
                                                     "example": 1
                                                 },
-                                                "user_id": {
-                                                    "type": "integer",
-                                                    "example": 1
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "John Doe"
                                                 },
                                                 "title": {
                                                     "type": "string",
@@ -553,7 +480,7 @@
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "The title field is required."
+                                            "example": "The name field is required."
                                         },
                                         "errors": {
                                             "type": "object"
@@ -563,29 +490,8 @@
                                 }
                             }
                         }
-                    },
-                    "401": {
-                        "description": "Unauthenticated",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Unauthenticated."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
                     }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                }
             }
         },
         "/api/wishes/{id}": {
@@ -594,7 +500,7 @@
                     "Wishes"
                 ],
                 "summary": "Get a specific wish",
-                "description": "Retrieve details of a specific wish (users can only view their own wishes)",
+                "description": "Retrieve details of a specific wish (requires view_all_wishes permission - Santa and Elfs only)",
                 "operationId": "4b6da589694075cac266f5566c933b34",
                 "parameters": [
                     {
@@ -620,9 +526,9 @@
                                                     "type": "integer",
                                                     "example": 1
                                                 },
-                                                "user_id": {
-                                                    "type": "integer",
-                                                    "example": 1
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "John Doe"
                                                 },
                                                 "title": {
                                                     "type": "string",
@@ -658,7 +564,7 @@
                         }
                     },
                     "403": {
-                        "description": "Forbidden - Not your wish",
+                        "description": "Forbidden - Insufficient permissions",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -701,7 +607,7 @@
                     "Wishes"
                 ],
                 "summary": "Update a wish",
-                "description": "Update a wish (users can update their own wishes, Santa can update status of any wish)",
+                "description": "Update a wish (only Santa and Elfs can update wishes)",
                 "operationId": "ccd65916ccf41123db5abfcb5e781464",
                 "parameters": [
                     {
@@ -740,7 +646,6 @@
                                         "example": "medium"
                                     },
                                     "status": {
-                                        "description": "Status (Santa can update this)",
                                         "type": "string",
                                         "enum": [
                                             "pending",
@@ -773,7 +678,7 @@
                         }
                     },
                     "403": {
-                        "description": "Forbidden - Not your wish or cannot update status",
+                        "description": "Forbidden - Insufficient permissions",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -816,7 +721,7 @@
                     "Wishes"
                 ],
                 "summary": "Delete a wish",
-                "description": "Soft delete a wish (users can only delete their own wishes)",
+                "description": "Soft delete a wish (only Santa and Elfs can delete wishes)",
                 "operationId": "42c21a12342a5d18eb57926aa9343ab2",
                 "parameters": [
                     {
@@ -847,7 +752,7 @@
                         }
                     },
                     "403": {
-                        "description": "Forbidden - Not your wish",
+                        "description": "Forbidden - Insufficient permissions",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -891,8 +796,8 @@
                 "tags": [
                     "Wishes"
                 ],
-                "summary": "Get all wishes (Santa only)",
-                "description": "Retrieve all wishes from all users (requires view_all_wishes permission)",
+                "summary": "Get all wishes",
+                "description": "Retrieve all wishes (requires view_all_wishes permission - Santa and Elfs only)",
                 "operationId": "7b0b257cfb7acd37f9d0e4a643ed456c",
                 "responses": {
                     "200": {
@@ -909,9 +814,9 @@
                                                         "type": "integer",
                                                         "example": 1
                                                     },
-                                                    "user_id": {
-                                                        "type": "integer",
-                                                        "example": 1
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "John Doe"
                                                     },
                                                     "title": {
                                                         "type": "string",
@@ -936,23 +841,6 @@
                                                     "updated_at": {
                                                         "type": "string",
                                                         "format": "date-time"
-                                                    },
-                                                    "user": {
-                                                        "properties": {
-                                                            "id": {
-                                                                "type": "integer",
-                                                                "example": 1
-                                                            },
-                                                            "name": {
-                                                                "type": "string",
-                                                                "example": "John Doe"
-                                                            },
-                                                            "email": {
-                                                                "type": "string",
-                                                                "example": "john@example.com"
-                                                            }
-                                                        },
-                                                        "type": "object"
                                                     }
                                                 },
                                                 "type": "object"
