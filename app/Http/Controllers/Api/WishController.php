@@ -265,18 +265,35 @@ class WishController extends Controller
 
     #[OA\Get(
         path: '/api/wishes/all',
-        description: 'Retrieve all wishes (requires view_all_wishes permission - Santa and Elfs only)',
-        summary: 'Get all wishes',
+        description: 'Retrieve all wishes with pagination (requires view_all_wishes permission - Santa and Elfs only)',
+        summary: 'Get all wishes (paginated)',
         security: [['sanctum' => []]],
         tags: ['Wishes'],
+        parameters: [
+            new OA\Parameter(
+                name: 'page',
+                description: 'Page number',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'integer', default: 1)
+            ),
+            new OA\Parameter(
+                name: 'per_page',
+                description: 'Items per page',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(type: 'integer', default: 15)
+            ),
+        ],
         responses: [
             new OA\Response(
                 response: 200,
                 description: 'All wishes retrieved successfully',
                 content: new OA\JsonContent(
                     properties: [
+                        new OA\Property(property: 'current_page', type: 'integer', example: 1),
                         new OA\Property(
-                            property: 'wishes',
+                            property: 'data',
                             type: 'array',
                             items: new OA\Items(
                                 properties: [
@@ -292,6 +309,28 @@ class WishController extends Controller
                                 type: 'object'
                             )
                         ),
+                        new OA\Property(property: 'first_page_url', type: 'string', example: 'http://localhost/api/wishes/all?page=1'),
+                        new OA\Property(property: 'from', type: 'integer', example: 1),
+                        new OA\Property(property: 'last_page', type: 'integer', example: 5),
+                        new OA\Property(property: 'last_page_url', type: 'string', example: 'http://localhost/api/wishes/all?page=5'),
+                        new OA\Property(
+                            property: 'links',
+                            type: 'array',
+                            items: new OA\Items(
+                                properties: [
+                                    new OA\Property(property: 'url', type: 'string', nullable: true),
+                                    new OA\Property(property: 'label', type: 'string'),
+                                    new OA\Property(property: 'active', type: 'boolean'),
+                                ],
+                                type: 'object'
+                            )
+                        ),
+                        new OA\Property(property: 'next_page_url', type: 'string', nullable: true, example: 'http://localhost/api/wishes/all?page=2'),
+                        new OA\Property(property: 'path', type: 'string', example: 'http://localhost/api/wishes/all'),
+                        new OA\Property(property: 'per_page', type: 'integer', example: 15),
+                        new OA\Property(property: 'prev_page_url', type: 'string', nullable: true),
+                        new OA\Property(property: 'to', type: 'integer', example: 15),
+                        new OA\Property(property: 'total', type: 'integer', example: 68),
                     ]
                 )
             ),
