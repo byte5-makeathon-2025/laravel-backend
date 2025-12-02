@@ -32,6 +32,8 @@ class WishFactory extends Factory
             'description' => $wish['description'],
             'priority' => fake()->randomElement(['high', 'medium', 'low']),
             'status' => fake()->randomElement(['pending', 'pending', 'pending', 'in_progress']),
+            'latitude' => fake()->latitude(47.2, 55.0),
+            'longitude' => fake()->longitude(5.8, 15.0),
         ];
     }
 }

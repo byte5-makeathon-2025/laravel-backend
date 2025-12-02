@@ -25,6 +25,8 @@ class WishController extends Controller
                     new OA\Property(property: 'title', description: 'Wish title', type: 'string', example: 'New Bicycle'),
                     new OA\Property(property: 'description', description: 'Detailed wish description', type: 'string', example: 'I would love a red bicycle'),
                     new OA\Property(property: 'priority', description: 'Priority level (defaults to medium)', type: 'string', enum: ['high', 'medium', 'low'], example: 'high'),
+                    new OA\Property(property: 'latitude', description: 'Location latitude', type: 'float', example: '51'),
+                    new OA\Property(property: 'longitude', description: 'Location longitude', type: 'float', example: '8'),
                 ]
             )
         ),
@@ -110,6 +112,8 @@ class WishController extends Controller
                                 new OA\Property(property: 'status', type: 'string', example: 'pending'),
                                 new OA\Property(property: 'created_at', type: 'string', format: 'date-time'),
                                 new OA\Property(property: 'updated_at', type: 'string', format: 'date-time'),
+                                new OA\Property(property: 'latitude', type: 'float', example: '50.0982413'),
+                                new OA\Property(property: 'longitude', type: 'float', example: '8.6502133'),
                             ],
                             type: 'object'
                         ),
