@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::table('wishes', function (Blueprint $table) {
             //
             $table->string('address')->default("");
-            $table->json('coordinates')->default("");
+            $table->string('coordinates')->default("");
         });
     }
 
