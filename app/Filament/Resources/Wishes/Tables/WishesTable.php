@@ -5,7 +5,6 @@ namespace App\Filament\Resources\Wishes\Tables;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Support\Colors\Color;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -34,7 +33,7 @@ class WishesTable
                 TextColumn::make('status')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
-                        'pending' => Color::Slate,
+                        'pending' => 'gray',
                         'in_progress' => 'info',
                         'granted' => 'success',
                         'denied' => 'danger',

@@ -8,10 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Random\Randomizer;
 
-/**
- * @property ?float $latitude
- * @property ?float $longitude
- */
 class Wish extends Model
 {
     /** @use HasFactory<WishFactory> */
