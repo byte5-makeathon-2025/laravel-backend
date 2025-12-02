@@ -75,7 +75,7 @@ This project uses Laravel Cloud for automated preview environments. When you cre
 - The preview environment is automatically updated with each push to the PR branch
 - The environment is automatically destroyed when the PR is closed
 
-This allows you to test your changes in an isolated environment before merging to production.
+This allows you to test your changes in an isolated environment.
 
 ## Development
 
