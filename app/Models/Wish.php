@@ -23,7 +23,7 @@ class Wish extends Model
     {
         parent::booted();
 
-        static::creating(function (self $wish) {
+        static::created(function (self $wish) {
            if (!$wish->latitude) {
                $randomFloat = new Randomizer();
                $wish->latitude = $randomFloat->getFloat(47.2, 55.0);
