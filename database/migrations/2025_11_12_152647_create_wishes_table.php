@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('description');
             $table->enum('priority', ['high', 'medium', 'low'])->default('medium');
-            $table->enum('status', ['pending', 'granted', 'denied', 'in_progress'])->default('pending');
+            $table->enum('status', ['pending', 'granted', 'denied', 'in_progress', 'delivered'])->default('pending');
             $table->timestamps();
             $table->softDeletes();
         });
