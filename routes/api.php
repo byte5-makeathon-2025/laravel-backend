@@ -10,6 +10,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/wishes/all', [WishController::class, 'allWishes'])
         ->middleware('can:view_all_wishes');
+    Route::get('/wishes/shopping-list', [WishController::class, 'shoppingList'])
+        ->middleware('can:view_all_wishes');
+    Route::get('/wishes/bribes', [WishController::class, 'getPendingBribes'])
+        ->middleware('can:view_all_wishes');
     Route::get('/wishes/{wish}', [WishController::class, 'show'])
         ->middleware('can:view_all_wishes');
 
@@ -17,6 +21,9 @@ Route::middleware('auth:sanctum')->group(function () {
         ->middleware('can:update_wish');
     Route::delete('/wishes/{wish}', [WishController::class, 'destroy'])
         ->middleware('can:delete_wish');
+
+    Route::put('/wishes/{wish}/bribe', [WishController::class, 'respondToBribe'])
+        ->middleware('can:update_wish');
 });
 
 Route::post('/register', [AuthController::class, 'register']);
@@ -24,3 +31,7 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::post('/wishes', [WishController::class, 'store'])
     ->middleware('throttle:10,1');
+
+Route::get('/wishes/{wish}/track', [WishController::class, 'track']);
+Route::post('/wishes/{wish}/bribe', [WishController::class, 'submitBribe'])
+    ->middleware('throttle:5,1');

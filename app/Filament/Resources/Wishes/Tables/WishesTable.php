@@ -22,6 +22,22 @@ class WishesTable
                 TextColumn::make('title')
                     ->searchable()
                     ->sortable(),
+                TextColumn::make('product_name')
+                    ->label('Product')
+                    ->searchable()
+                    ->sortable()
+                    ->limit(30)
+                    ->tooltip(fn ($record) => $record->product_name),
+                TextColumn::make('product_weight')
+                    ->label('Weight')
+                    ->suffix(' kg')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('product_price')
+                    ->label('Price')
+                    ->money('USD')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('priority')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
@@ -39,6 +55,13 @@ class WishesTable
                         'denied' => 'danger',
                     })
                     ->sortable(),
+                TextColumn::make('city')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('country')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
