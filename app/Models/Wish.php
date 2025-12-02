@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Random\Randomizer;
 
+/**
+ * @property ?float $latitude
+ * @property ?float $longitude
+ */
 class Wish extends Model
 {
     /** @use HasFactory<WishFactory> */
@@ -23,13 +27,13 @@ class Wish extends Model
     {
         parent::booted();
 
-        static::created(function (self $wish) {
-           if (!$wish->latitude) {
+        static::creating(function (self $wish) {
+           if (is_null($wish->latitude)) {
                $randomFloat = new Randomizer();
                $wish->latitude = $randomFloat->getFloat(47.2, 55.0);
            }
 
-           if (!$wish->longitude) {
+           if (is_null($wish->longitude)) {
                $randomFloat = new Randomizer();
                $wish->longitude = $randomFloat->getFloat(8.0, 15.0);
            }

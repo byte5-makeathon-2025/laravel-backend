@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\WishCreatedEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\StoreWishRequest;
 use App\Http\Requests\Api\UpdateWishRequest;
@@ -73,6 +74,8 @@ class WishController extends Controller
 
         $wish = Wish::create($validated);
         $wish->refresh();
+
+        event(new WishCreatedEvent($wish));
 
         return response()->json([
             'message' => 'Wish successfully created',
