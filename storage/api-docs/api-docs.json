@@ -10,7 +10,7 @@
     },
     "servers": [
         {
-            "url": "http://my-default-host.com",
+            "url": "http://localhost",
             "description": "API Server"
         }
     ],
@@ -383,6 +383,11 @@
                             "schema": {
                                 "required": [
                                     "name",
+                                    "street",
+                                    "house_number",
+                                    "postal_code",
+                                    "city",
+                                    "country",
                                     "title",
                                     "description"
                                 ],
@@ -391,6 +396,31 @@
                                         "description": "Name of person making the wish",
                                         "type": "string",
                                         "example": "John Doe"
+                                    },
+                                    "street": {
+                                        "description": "Street name",
+                                        "type": "string",
+                                        "example": "Main Street"
+                                    },
+                                    "house_number": {
+                                        "description": "House number",
+                                        "type": "string",
+                                        "example": "123"
+                                    },
+                                    "postal_code": {
+                                        "description": "Postal/ZIP code",
+                                        "type": "string",
+                                        "example": "12345"
+                                    },
+                                    "city": {
+                                        "description": "City name",
+                                        "type": "string",
+                                        "example": "Berlin"
+                                    },
+                                    "country": {
+                                        "description": "Country name",
+                                        "type": "string",
+                                        "example": "Germany"
                                     },
                                     "title": {
                                         "description": "Wish title",
@@ -438,6 +468,26 @@
                                                 "name": {
                                                     "type": "string",
                                                     "example": "John Doe"
+                                                },
+                                                "street": {
+                                                    "type": "string",
+                                                    "example": "Main Street"
+                                                },
+                                                "house_number": {
+                                                    "type": "string",
+                                                    "example": "123"
+                                                },
+                                                "postal_code": {
+                                                    "type": "string",
+                                                    "example": "12345"
+                                                },
+                                                "city": {
+                                                    "type": "string",
+                                                    "example": "Berlin"
+                                                },
+                                                "country": {
+                                                    "type": "string",
+                                                    "example": "Germany"
                                                 },
                                                 "title": {
                                                     "type": "string",
@@ -529,6 +579,26 @@
                                                 "name": {
                                                     "type": "string",
                                                     "example": "John Doe"
+                                                },
+                                                "street": {
+                                                    "type": "string",
+                                                    "example": "Main Street"
+                                                },
+                                                "house_number": {
+                                                    "type": "string",
+                                                    "example": "123"
+                                                },
+                                                "postal_code": {
+                                                    "type": "string",
+                                                    "example": "12345"
+                                                },
+                                                "city": {
+                                                    "type": "string",
+                                                    "example": "Berlin"
+                                                },
+                                                "country": {
+                                                    "type": "string",
+                                                    "example": "Germany"
                                                 },
                                                 "title": {
                                                     "type": "string",
@@ -654,6 +724,31 @@
                                             "in_progress"
                                         ],
                                         "example": "granted"
+                                    },
+                                    "street": {
+                                        "description": "Street name",
+                                        "type": "string",
+                                        "example": "Main Street"
+                                    },
+                                    "house_number": {
+                                        "description": "House number",
+                                        "type": "string",
+                                        "example": "123"
+                                    },
+                                    "postal_code": {
+                                        "description": "Postal/ZIP code",
+                                        "type": "string",
+                                        "example": "12345"
+                                    },
+                                    "city": {
+                                        "description": "City name",
+                                        "type": "string",
+                                        "example": "Berlin"
+                                    },
+                                    "country": {
+                                        "description": "Country name",
+                                        "type": "string",
+                                        "example": "Germany"
                                     }
                                 },
                                 "type": "object"
@@ -843,6 +938,26 @@
                                                     "name": {
                                                         "type": "string",
                                                         "example": "John Doe"
+                                                    },
+                                                    "street": {
+                                                        "type": "string",
+                                                        "example": "Main Street"
+                                                    },
+                                                    "house_number": {
+                                                        "type": "string",
+                                                        "example": "123"
+                                                    },
+                                                    "postal_code": {
+                                                        "type": "string",
+                                                        "example": "12345"
+                                                    },
+                                                    "city": {
+                                                        "type": "string",
+                                                        "example": "Berlin"
+                                                    },
+                                                    "country": {
+                                                        "type": "string",
+                                                        "example": "Germany"
                                                     },
                                                     "title": {
                                                         "type": "string",

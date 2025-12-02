@@ -10,6 +10,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/wishes/all', [WishController::class, 'allWishes'])
         ->middleware('can:view_all_wishes');
+    Route::get('/wishes/shopping-list', [WishController::class, 'shoppingList'])
+        ->middleware('can:view_all_wishes');
     Route::get('/wishes/{wish}', [WishController::class, 'show'])
         ->middleware('can:view_all_wishes');
 
@@ -24,3 +26,5 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::post('/wishes', [WishController::class, 'store'])
     ->middleware('throttle:10,1');
+
+Route::get('/wishes/{wish}/track', [WishController::class, 'track']);
