@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ParentModel;
+use App\Models\Coupon;
 use Illuminate\Http\Request;
 
 class ParentController extends Controller
@@ -20,6 +21,13 @@ class ParentController extends Controller
         ]);
 
         $parent = ParentModel::create($validated);
+        // Create coupons for each child
+        for ($i = 0; $i < $parent->amount_of_children; $i++) {
+            Coupon::create([
+                'hash' => bin2hex(random_bytes(16)),
+                'parent_id' => $parent->id,
+            ]);
+        }
         return response()->json(['parent' => $parent], 201);
     }
 }
