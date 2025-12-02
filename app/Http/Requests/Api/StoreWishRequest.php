@@ -14,8 +14,8 @@ class StoreWishRequest extends FormRequest
             'title' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
             'priority' => ['sometimes', 'string', Rule::in(['high', 'medium', 'low'])],
-            'latitude' => ['sometimes', 'decimal'],
-            'longitude' => ['sometimes', 'decimal'],
+            'latitude' => ['sometimes', 'numeric', 'between:-90,90', 'decimal:1,20'],
+            'longitude' => ['sometimes', 'numeric', 'between:-90,90', 'decimal:1,20'],
         ];
     }
 
