@@ -18,7 +18,7 @@ class Wish extends Model
         'description',
         'priority',
         'status',
-        'house_number',
+        'house',
         'street',
         'city',
         'state',

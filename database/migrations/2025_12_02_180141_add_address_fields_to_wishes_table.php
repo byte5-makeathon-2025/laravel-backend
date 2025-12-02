@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::table('wishes', function (Blueprint $table) {
             $table->unsignedBigInteger('tracking_number')->unique()->nullable()->after('id');
-            $table->string('house_number')->nullable()->after('status');
-            $table->string('street')->nullable()->after('house_number');
+            $table->string('house')->nullable()->after('status');
+            $table->string('street')->nullable()->after('house');
             $table->string('city')->nullable()->after('street');
             $table->string('state')->nullable()->after('city');
             $table->string('country')->nullable()->after('state');
@@ -32,7 +32,7 @@ return new class extends Migration
         Schema::table('wishes', function (Blueprint $table) {
             $table->dropColumn([
                 'tracking_number',
-                'house_number',
+                'house',
                 'street',
                 'city',
                 'state',
