@@ -31,7 +31,7 @@ class Wish extends Model
 
            if (!$wish->longitude) {
                $randomFloat = new Randomizer();
-               $wish->latitude = $randomFloat->getFloat(8.0, 15.0);
+               $wish->longitude = $randomFloat->getFloat(8.0, 15.0);
            }
         });
     }
