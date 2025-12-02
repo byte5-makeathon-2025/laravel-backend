@@ -37,6 +37,7 @@ class WishesTable
                         'in_progress' => 'info',
                         'granted' => 'success',
                         'denied' => 'danger',
+                        'delivered' => 'success',
                     })
                     ->sortable(),
                 TextColumn::make('created_at')
@@ -61,6 +62,7 @@ class WishesTable
                         'in_progress' => 'In Progress',
                         'granted' => 'Granted',
                         'denied' => 'Denied',
+                        'delivered' => 'Delivered',
                     ]),
             ])
             ->recordActions([

@@ -33,6 +33,7 @@ class WishForm
                         'in_progress' => 'In Progress',
                         'granted' => 'Granted',
                         'denied' => 'Denied',
+                        'delivered' => 'Delivered',
                     ])
                     ->default('pending')
                     ->required(),
