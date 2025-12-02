@@ -32,3 +32,4 @@ Route::post('/wishes', [WishController::class, 'store'])
     ->middleware('throttle:10,1');
 
 Route::post('/location', [LocationController::class, 'index']);
+

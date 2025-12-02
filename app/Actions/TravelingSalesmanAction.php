@@ -5,7 +5,7 @@ namespace App\Actions;
 use Location\Coordinate;
 use Location\Distance\Vincenty;
 
-class GeocodeAddressAction {
+class TravelingSalesmanAction {
     public function execute(array $coordinates): array
     {
         $matrix = $this->buildDistanceMatrix($coordinates);
@@ -19,7 +19,7 @@ class GeocodeAddressAction {
 
         foreach ($coordinates as $i => $a) {
             foreach ($coordinates as $j => $b) {
-                $matrix[$i][$j] = ($i === $j) ? 0 : $calculator->getDistance($a, $b);
+                $matrix[$i][$j] = ($i === $j) ? 0 : $calculator->getDistance(new Coordinate($a[0], $a[1]), new Coordinate($b[0], $b[1]));
             }
         }
 
