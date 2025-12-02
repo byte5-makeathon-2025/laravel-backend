@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\WishChatController;
 use App\Http\Controllers\Api\WishController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,10 +18,13 @@ Route::middleware('auth:sanctum')->group(function () {
         ->middleware('can:update_wish');
     Route::delete('/wishes/{wish}', [WishController::class, 'destroy'])
         ->middleware('can:delete_wish');
+
+    Route::post('/wishes', [WishController::class, 'store'])
+        ->middleware('throttle:10,1');
+
+    Route::post('/wishes/chat', WishChatController::class)
+        ->middleware('throttle:20,1');
 });
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
-
-Route::post('/wishes', [WishController::class, 'store'])
-    ->middleware('throttle:10,1');

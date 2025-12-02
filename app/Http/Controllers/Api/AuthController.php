@@ -26,6 +26,8 @@ class AuthController extends Controller
                 properties: [
                     new OA\Property(property: 'name', description: "User's full name", type: 'string', example: 'John Doe'),
                     new OA\Property(property: 'email', description: "User's email address", type: 'string', format: 'email', example: 'john@example.com'),
+                    new OA\Property(property: 'age', description: "User's age", type: 'number', format: 'email', example: 25),
+                    new OA\Property(property: 'gender', description: "User's gender", type: 'string', format: 'email', example: 'male'),
                     new OA\Property(property: 'password', description: "User's password (min 8 characters)", type: 'string', format: 'password', example: 'password123'),
                     new OA\Property(property: 'password_confirmation', description: 'Password confirmation', type: 'string', format: 'password', example: 'password123'),
                 ]
@@ -75,11 +77,16 @@ class AuthController extends Controller
     {
         $validated = $request->validated();
 
-        $user = User::create([
+        /** @var User $user */
+        $user = User::query()->create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
+            'age' => $validated['age'],
+            'gender' => $validated['gender'],
         ]);
+
+        $user->assignRole('elf');
 
         $token = $user->createToken('auth-token')->plainTextToken;
 
