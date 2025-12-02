@@ -87,13 +87,13 @@ class WishController extends Controller
             'message' => 'Wish successfully created',
             'wish' => $wish,
             'success_url' => route('wish.success', $wish->tracking_number),
-            'tracking_url' => route('tracking.show', $wish->tracking_number),
+//            'tracking_url' => route('tracking.show', $wish->tracking_number),
         ], 201);
     }
 
     #[OA\Get(
         path: '/api/wishes/{id}',
-        description: 'Retrieve details of a specific wish (requires view_all_wishes permission - Santa and Elfs only)',
+        description: 'Retrieve details of a specific wisoh (requires view_all_wishes permission - Santa and Elfs only)',
         summary: 'Get a specific wish',
         security: [['sanctum' => []]],
         tags: ['Wishes'],
