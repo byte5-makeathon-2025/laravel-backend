@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\StoreWishRequest;
 use App\Http\Requests\Api\UpdateWishRequest;
 use App\Models\Wish;
+use App\Services\CouponService;
 use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes as OA;
 
@@ -350,5 +351,19 @@ class WishController extends Controller
         $wishes = Wish::latest()->paginate();
 
         return response()->json($wishes);
+    }
+
+    /**
+     * Checks if a Coupon with the given hash is purchasable and returns status info.
+     *
+     * - isPurchasable: true if Coupon exists and no Wish is coupled to it
+     * - parentId: id of Parent if Coupon exists
+     * - status: status of Wish if coupled, otherwise null
+     */
+    public function checkHash(string $hash): \Illuminate\Http\JsonResponse
+    {
+        $service = new CouponService();
+        $result = $service->checkCouponHash($hash);
+        return response()->json($result);
     }
 }
