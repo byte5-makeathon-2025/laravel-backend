@@ -3,6 +3,9 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\WishController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ParentController;
+
+
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
@@ -24,3 +27,5 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::post('/wishes', [WishController::class, 'store'])
     ->middleware('throttle:10,1');
+
+Route::post('/parent/register', [ParentController::class, 'store']);
