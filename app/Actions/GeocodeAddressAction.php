@@ -18,13 +18,13 @@ class GeocodeAddressAction {
         ]);
 
         if ($response->failed()) {
-            throw new \Exception("No Response.");
+            throw new \Exception("No Response");
         }
 
         $data = $response->json();
 
         if (empty($data)) {
-            throw new \Exception("No Data.");
+            throw new \Exception("No Data");
         }
 
         return [
