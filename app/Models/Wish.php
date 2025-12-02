@@ -15,4 +15,8 @@ class Wish extends Model
     protected $hidden = [
         'deleted_at',
     ];
+
+    protected $casts = [
+        'coordinates' => 'array',
+    ];
 }
