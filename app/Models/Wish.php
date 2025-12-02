@@ -25,15 +25,13 @@ class Wish extends Model
 
         static::creating(function (self $wish) {
            if (!$wish->latitude) {
-               //$wish->latitude = rand(47.2, 55.0);
                $randomFloat = new Randomizer();
-               $wish->latitude = $randomFloat->nextFloat();
+               $wish->latitude = $randomFloat->getFloat(47.2, 55.0);
            }
 
            if (!$wish->longitude) {
-               //$wish->longitude = rand(8.0, 15.0);
                $randomFloat = new Randomizer();
-               $wish->latitude = $randomFloat->nextFloat();
+               $wish->latitude = $randomFloat->getFloat(8.0, 15.0);
            }
         });
     }
