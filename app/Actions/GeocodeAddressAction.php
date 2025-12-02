@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Http;
 class GeocodeAddressAction {
     public function execute(string $address): array
     {
-        if (! $address) {
+        if (!$address) {
             throw new \Exception("Keine Adresse übergeben.");
         }
 
@@ -36,4 +36,3 @@ class GeocodeAddressAction {
     }
 }
 
-?>

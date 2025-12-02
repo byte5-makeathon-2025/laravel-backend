@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\LocationController;
 use App\Http\Controllers\Api\WishController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,3 +25,5 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::post('/wishes', [WishController::class, 'store'])
     ->middleware('throttle:10,1');
+
+Route::post('/location', [LocationController::class, 'index']);
