@@ -29,3 +29,4 @@ Route::post('/wishes', [WishController::class, 'store'])
     ->middleware('throttle:10,1');
 
 Route::post('/parent/register', [ParentController::class, 'store']);
+Route::get('/wish/{hash}', [WishController::class, 'checkHash']);

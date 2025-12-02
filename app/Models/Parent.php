@@ -5,11 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ParentModel extends Model
+class Parent extends Model
 {
     use HasFactory;
 
-    protected $table = 'parents';
     protected $fillable = [
         'name',
         'amount_of_children',
