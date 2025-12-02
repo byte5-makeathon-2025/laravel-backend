@@ -34,6 +34,7 @@ class DatabaseSeeder extends Seeder
             'description' => 'I would love a shiny red bicycle with training wheels',
             'priority' => 'high',
             'status' => 'pending',
+            "coordinates" => [40.7127837, -74.0059413]
         ]);
 
         Wish::factory()->create([
@@ -42,6 +43,7 @@ class DatabaseSeeder extends Seeder
             'description' => 'A soft and cuddly teddy bear to hug at night',
             'priority' => 'medium',
             'status' => 'pending',
+            "coordinates" => [32.7127837, -42.0059413]
         ]);
 
         Wish::factory()->create([
@@ -50,6 +52,7 @@ class DatabaseSeeder extends Seeder
             'description' => 'Peace and happiness for everyone in the world',
             'priority' => 'high',
             'status' => 'in_progress',
+            "coordinates" => [89.7127837, -89.0059413]
         ]);
     }
 }
