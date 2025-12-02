@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\LocationController;
+use App\Http\Controllers\Api\RouteController;
 use App\Http\Controllers\Api\WishController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,10 +15,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/wishes/{wish}', [WishController::class, 'show'])
         ->middleware('can:view_all_wishes');
 
+
     Route::put('/wishes/{wish}', [WishController::class, 'update'])
         ->middleware('can:update_wish');
     Route::delete('/wishes/{wish}', [WishController::class, 'destroy'])
         ->middleware('can:delete_wish');
+
+    Route::get('/route', [RouteController::class, 'index']);
+
 });
 
 Route::post('/register', [AuthController::class, 'register']);
