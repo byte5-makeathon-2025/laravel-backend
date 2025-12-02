@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\WishChatController;
 use App\Http\Controllers\Api\WishController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,6 +18,8 @@ Route::middleware('auth:sanctum')->group(function () {
         ->middleware('can:update_wish');
     Route::delete('/wishes/{wish}', [WishController::class, 'destroy'])
         ->middleware('can:delete_wish');
+
+    Route::post('/wishes/chat', WishChatController::class);
 });
 
 Route::post('/register', [AuthController::class, 'register']);
