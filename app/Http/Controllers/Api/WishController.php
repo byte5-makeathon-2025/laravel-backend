@@ -25,6 +25,14 @@ class WishController extends Controller
                     new OA\Property(property: 'title', description: 'Wish title', type: 'string', example: 'New Bicycle'),
                     new OA\Property(property: 'description', description: 'Detailed wish description', type: 'string', example: 'I would love a red bicycle'),
                     new OA\Property(property: 'priority', description: 'Priority level (defaults to medium)', type: 'string', enum: ['high', 'medium', 'low'], example: 'high'),
+                    new OA\Property(property: 'house', description: 'House number', type: 'string', example: '123'),
+                    new OA\Property(property: 'street', description: 'Street name', type: 'string', example: 'Main Street'),
+                    new OA\Property(property: 'city', description: 'City name', type: 'string', example: 'New York'),
+                    new OA\Property(property: 'state', description: 'State or province', type: 'string', example: 'NY'),
+                    new OA\Property(property: 'country', description: 'Country name', type: 'string', example: 'USA'),
+                    new OA\Property(property: 'postal_code', description: 'Postal code', type: 'string', example: '10001'),
+                    new OA\Property(property: 'latitude', description: 'Latitude coordinate', type: 'number', format: 'float', example: 40.7128),
+                    new OA\Property(property: 'longitude', description: 'Longitude coordinate', type: 'number', format: 'float', example: -74.0060),
                 ]
             )
         ),
@@ -40,6 +48,7 @@ class WishController extends Controller
                             property: 'wish',
                             properties: [
                                 new OA\Property(property: 'id', type: 'integer', example: 1),
+                                new OA\Property(property: 'tracking_number', type: 'integer', example: 12345678),
                                 new OA\Property(property: 'name', type: 'string', example: 'John Doe'),
                                 new OA\Property(property: 'title', type: 'string', example: 'New Bicycle'),
                                 new OA\Property(property: 'description', type: 'string', example: 'I would love a red bicycle'),
@@ -50,6 +59,8 @@ class WishController extends Controller
                             ],
                             type: 'object'
                         ),
+                        new OA\Property(property: 'success_url', type: 'string', example: 'http://localhost/wish/success/12345678'),
+                        new OA\Property(property: 'tracking_url', type: 'string', example: 'http://localhost/track/12345678'),
                     ]
                 )
             ),
@@ -75,12 +86,14 @@ class WishController extends Controller
         return response()->json([
             'message' => 'Wish successfully created',
             'wish' => $wish,
+            'success_url' => route('wish.success', $wish->tracking_number),
+//            'tracking_url' => route('tracking.show', $wish->tracking_number),
         ], 201);
     }
 
     #[OA\Get(
         path: '/api/wishes/{id}',
-        description: 'Retrieve details of a specific wish (requires view_all_wishes permission - Santa and Elfs only)',
+        description: 'Retrieve details of a specific wisoh (requires view_all_wishes permission - Santa and Elfs only)',
         summary: 'Get a specific wish',
         security: [['sanctum' => []]],
         tags: ['Wishes'],
@@ -103,11 +116,20 @@ class WishController extends Controller
                             property: 'wish',
                             properties: [
                                 new OA\Property(property: 'id', type: 'integer', example: 1),
+                                new OA\Property(property: 'tracking_number', type: 'integer', nullable: true, example: 12345678),
                                 new OA\Property(property: 'name', type: 'string', example: 'John Doe'),
                                 new OA\Property(property: 'title', type: 'string', example: 'New Bicycle'),
                                 new OA\Property(property: 'description', type: 'string', example: 'I would love a red bicycle'),
                                 new OA\Property(property: 'priority', type: 'string', example: 'high'),
                                 new OA\Property(property: 'status', type: 'string', example: 'pending'),
+                                new OA\Property(property: 'house', type: 'string', nullable: true, example: '123'),
+                                new OA\Property(property: 'street', type: 'string', nullable: true, example: 'Main Street'),
+                                new OA\Property(property: 'city', type: 'string', nullable: true, example: 'New York'),
+                                new OA\Property(property: 'state', type: 'string', nullable: true, example: 'NY'),
+                                new OA\Property(property: 'country', type: 'string', nullable: true, example: 'USA'),
+                                new OA\Property(property: 'postal_code', type: 'string', nullable: true, example: '10001'),
+                                new OA\Property(property: 'latitude', type: 'number', format: 'float', nullable: true, example: 40.7128),
+                                new OA\Property(property: 'longitude', type: 'number', format: 'float', nullable: true, example: -74.0060),
                                 new OA\Property(property: 'created_at', type: 'string', format: 'date-time'),
                                 new OA\Property(property: 'updated_at', type: 'string', format: 'date-time'),
                             ],
@@ -155,7 +177,15 @@ class WishController extends Controller
                     new OA\Property(property: 'title', description: 'Wish title', type: 'string', example: 'Updated Bicycle'),
                     new OA\Property(property: 'description', description: 'Detailed wish description', type: 'string', example: 'I would love a blue bicycle'),
                     new OA\Property(property: 'priority', type: 'string', enum: ['high', 'medium', 'low'], example: 'medium'),
-                    new OA\Property(property: 'status', type: 'string', enum: ['pending', 'granted', 'denied', 'in_progress'], example: 'granted'),
+                    new OA\Property(property: 'status', type: 'string', enum: ['pending', 'granted', 'denied', 'in_progress', 'delivered'], example: 'granted'),
+                    new OA\Property(property: 'house', description: 'House number', type: 'string', example: '123'),
+                    new OA\Property(property: 'street', description: 'Street name', type: 'string', example: 'Main Street'),
+                    new OA\Property(property: 'city', description: 'City name', type: 'string', example: 'New York'),
+                    new OA\Property(property: 'state', description: 'State or province', type: 'string', example: 'NY'),
+                    new OA\Property(property: 'country', description: 'Country name', type: 'string', example: 'USA'),
+                    new OA\Property(property: 'postal_code', description: 'Postal code', type: 'string', example: '10001'),
+                    new OA\Property(property: 'latitude', description: 'Latitude coordinate', type: 'number', format: 'float', example: 40.7128),
+                    new OA\Property(property: 'longitude', description: 'Longitude coordinate', type: 'number', format: 'float', example: -74.0060),
                 ]
             )
         ),
@@ -298,11 +328,20 @@ class WishController extends Controller
                             items: new OA\Items(
                                 properties: [
                                     new OA\Property(property: 'id', type: 'integer', example: 1),
+                                    new OA\Property(property: 'tracking_number', type: 'integer', nullable: true, example: 12345678),
                                     new OA\Property(property: 'name', type: 'string', example: 'John Doe'),
                                     new OA\Property(property: 'title', type: 'string', example: 'New Bicycle'),
                                     new OA\Property(property: 'description', type: 'string', example: 'I would love a red bicycle'),
                                     new OA\Property(property: 'priority', type: 'string', example: 'high'),
                                     new OA\Property(property: 'status', type: 'string', example: 'pending'),
+                                    new OA\Property(property: 'house', type: 'string', nullable: true, example: '123'),
+                                    new OA\Property(property: 'street', type: 'string', nullable: true, example: 'Main Street'),
+                                    new OA\Property(property: 'city', type: 'string', nullable: true, example: 'New York'),
+                                    new OA\Property(property: 'state', type: 'string', nullable: true, example: 'NY'),
+                                    new OA\Property(property: 'country', type: 'string', nullable: true, example: 'USA'),
+                                    new OA\Property(property: 'postal_code', type: 'string', nullable: true, example: '10001'),
+                                    new OA\Property(property: 'latitude', type: 'number', format: 'float', nullable: true, example: 40.7128),
+                                    new OA\Property(property: 'longitude', type: 'number', format: 'float', nullable: true, example: -74.0060),
                                     new OA\Property(property: 'created_at', type: 'string', format: 'date-time'),
                                     new OA\Property(property: 'updated_at', type: 'string', format: 'date-time'),
                                 ],
