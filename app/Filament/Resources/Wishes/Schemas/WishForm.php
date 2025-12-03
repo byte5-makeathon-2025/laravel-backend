@@ -40,6 +40,18 @@ class WishForm
                     ->label('Wish Creator')
                     ->required()
                     ->maxLength(255),
+                TextInput::make('latitude')
+                    ->numeric()
+                    ->integer(false)
+                    ->label('Latitude')
+                    ->required()
+                    ->maxLength(255),
+                TextInput::make('longitude')
+                    ->numeric()
+                    ->integer(false)
+                    ->label('Longitude')
+                    ->required()
+                    ->maxLength(255),
             ]);
     }
 }

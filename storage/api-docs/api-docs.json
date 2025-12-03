@@ -10,7 +10,7 @@
     },
     "servers": [
         {
-            "url": "http://my-default-host.com",
+            "url": "http://localhost",
             "description": "API Server"
         }
     ],
@@ -411,6 +411,18 @@
                                             "low"
                                         ],
                                         "example": "high"
+                                    },
+                                    "latitude": {
+                                        "description": "Location latitude",
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": "51"
+                                    },
+                                    "longitude": {
+                                        "description": "Location longitude",
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": "8"
                                     }
                                 },
                                 "type": "object"
@@ -553,6 +565,16 @@
                                                 "updated_at": {
                                                     "type": "string",
                                                     "format": "date-time"
+                                                },
+                                                "latitude": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": "50.0982413"
+                                                },
+                                                "longitude": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": "8.6502133"
                                                 }
                                             },
                                             "type": "object"
